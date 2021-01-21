@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Image;
 
 class CustomerController extends Controller
 {
@@ -37,7 +38,27 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());exit;
+        $validateData = $request->validate([
+                'customername' => 'required',
+                'email' => 'required|email|unique:customers',               
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'                
+             ],[
+                'customername.required' => 'CustomerName is required'
+            ]
+        );
+     
+
         $customer = new Customer;
+
+        //Image upload:
+        $image = $request->file('image');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('images/customer');        
+        $image->move($destinationPath, $imageName);
+        //------------------------
+
+        $customer->customerimg = $imageName;
+        $customer->imagepath = $destinationPath;
         $customer->customername = $request->get('customername');
         $customer->email = $request->get('email');
         $customer->phone = $request->get('phone');
@@ -77,8 +98,30 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {        
+        $validateData = $request->validate(
+            [
+                'customername' => 'required',
+                'email' => 'required|email|unique:customers,email,'.$id,
+                'phone' => 'digits:10'
+            ],[
+                'customername.required' => "Customername is required",
+                'phone' => "Mobile number must be 10 digits"
+            ]);
+
         $data = Customer::findOrFail($id);
+
+        //image:
+        $image = $request->file('image');
+
+        if($image){ 
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('images/customer');        
+            $image->move($destinationPath, $imageName);
+        }
+
+        $data->customerimg = $imageName;
+        $data->imagepath = $destinationPath;
         $data->customername = $request->get('customername');
         $data->email = $request->get('email');
         $data->phone = $request->get('phone');

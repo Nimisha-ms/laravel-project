@@ -26,6 +26,7 @@
 	          <th>Customer Name</th>
 	          <th>Email</th>          
 	          <th>Phone No</th>
+            <th>Image</th>
             <th>Action</th>
 	       </tr>
 	    @php($count=0)   
@@ -34,8 +35,9 @@
           <tr>
           	<td>{{ $count }}</td>
             <td>{{ $datas->customername }}</td>
-            <td>{{ $datas->email }}</td>
-            <td>{{ $datas->phone }}</td>            
+            <td>{{ $datas->email }}</td>            
+            <td>{{ $datas->phone }}</td>
+            <td><img src="{{ asset('images/customer/' . $datas->customerimg) }}" height="50" width="50" /></td>            
             <td> <a href='{{ url("editcustomer",$datas->id) }}'>Edit</a> | 
               <a href='{{ url("deletecustomer",$datas->id) }}'>Delete</a></td>
           </tr>
