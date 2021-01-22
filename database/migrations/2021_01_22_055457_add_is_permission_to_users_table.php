@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddImageToCustomers extends Migration
+class AddIsPermissionToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddImageToCustomers extends Migration
      */
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            //
-             $table->string('customerimg')->after("phone");
+        Schema::table('users', function (Blueprint $table) {
+             $table->tinyInteger('is_permission')->nullable()->after("remember_token");
         });
     }
 
@@ -26,9 +25,8 @@ class AddImageToCustomers extends Migration
      */
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            //
-            $table->dropColumn('customerimg');
+        Schema::table('users', function (Blueprint $table) {
+             $table->dropColumn('is_permission');
         });
     }
 }

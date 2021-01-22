@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
-
+use App\Http\Middleware\CheckPermission;
+;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,3 +26,48 @@ Route::get('editcustomer/{id}',[CustomerController::class,'edit']);
 Route::post('editcustomer/{id}',[CustomerController::class,'update']);
 Route::get('deletecustomer/{id}',[CustomerController::class,'destroy']);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+
+
+
+Route::group(['middleware' => 'auth'], function () {
+    // User needs to be authenticated to enter here.
+    Route::get('/', function ()    {
+        // Uses Auth Middleware
+    });
+
+    Route::get('user/profile', function () {
+        // Uses Auth Middleware
+    });
+});
+
+//Middleware - User Access Control by Role:
+
+Route::group(['middleware' => 'auth'], function(){
+	
+	Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+
+	Route::get('permissions-all-users', [App\Http\Controllers\HomeController::class, 'allUsers'])->middleware('check-permission:user|admin|superadmin');
+	
+	Route::get('permissions-admin-superadmin', [App\Http\Controllers\HomeController::class, 'adminSuperadmin'])->middleware('check-permission:admin|superadmin');
+
+	Route::get('permissions-superadmin', [App\Http\Controllers\HomeController::class, 'superadmin'])->middleware('check-permission:superadmin');
+   
+});
+
+
+Route::get('sendmail',function() {
+
+    $details = [
+        'title' => 'Mail for testing',
+        'body' => 'This is for testing email using smtp'
+    ];
+
+    \Mail::to('testFreelance.n@gmail.com')->send(new \App\Mail\MyTestMail($details));
+
+    dd("Mail send successfully");
+
+});

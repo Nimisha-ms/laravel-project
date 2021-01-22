@@ -119,7 +119,7 @@ class CustomerController extends Controller
             $destinationPath = public_path('images/customer');        
             $image->move($destinationPath, $imageName);
         }
-
+        
         $data->customerimg = $imageName;
         $data->imagepath = $destinationPath;
         $data->customername = $request->get('customername');
