@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ContactController;
 use App\Http\Middleware\CheckPermission;
 ;
 /*
@@ -27,7 +28,8 @@ Route::post('editcustomer/{id}',[CustomerController::class,'update']);
 Route::get('deletecustomer/{id}',[CustomerController::class,'destroy']);
 
 
-Auth::routes();
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
@@ -59,6 +61,12 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 
+//contactus
+Route::get('contact',[ContactController::class,'addcontact']);
+Route::post('contact',[ContactController::class,'storecontact']);
+
+
+//Mail:
 Route::get('sendmail',function() {
 
     $details = [

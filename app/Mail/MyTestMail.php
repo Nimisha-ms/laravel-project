@@ -24,7 +24,7 @@ class MyTestMail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the message.p
      *
      * @return $this
      */
