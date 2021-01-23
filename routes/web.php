@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckPermission;
 ;
 /*
@@ -79,3 +81,7 @@ Route::get('sendmail',function() {
     dd("Mail send successfully");
 
 });
+
+Route::get('email',[JobController::class,'processQueue']);
+
+Route::get('sendnoti',[HomeController::class,'sendNotification']);

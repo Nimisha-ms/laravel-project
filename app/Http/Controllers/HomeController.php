@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Notifications\MyFirstNotification;
+use Notification;
 
 class HomeController extends Controller
 {
@@ -84,5 +87,22 @@ class HomeController extends Controller
 
         dd('Access only Superadmin');
 
+    }
+
+    public function sendNotification(){
+        $user = User::where('id', '4')->first();
+       
+        $details= [
+            'greeting'=> 'Hii',
+            'body'=> 'This is my first notification',
+            'thanks'=> 'Thankyou for the noti',
+            'actionText'=> 'View Site',
+            'actionURL' => url('/'),
+            'orderid' => '101'
+        ];
+
+        Notification::send($user,new MyFirstNotification($details));
+
+        dd(done);
     }
 }
