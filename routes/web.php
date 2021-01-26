@@ -5,6 +5,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use App\Http\Middleware\CheckPermission;
 ;
 /*
@@ -46,6 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user/profile', function () {
         // Uses Auth Middleware
     });
+
+    Route::get('createpost',[PostController::class,'create']);
+    Route::post('createpost',[PostController::class,'store']);
+
+    Route::get('allposts',[PostController::class,'index']);
+    Route::get('viewpost/{id}',[PostController::class,'show']);
+    Route::post('storecomments',[CommentController::class,'store'])->name('comments.store');
 });
 
 //Middleware - User Access Control by Role:
@@ -85,3 +94,4 @@ Route::get('sendmail',function() {
 Route::get('email',[JobController::class,'processQueue']);
 
 Route::get('sendnoti',[HomeController::class,'sendNotification']);
+
