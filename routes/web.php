@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\MessageController;
 use App\Http\Middleware\CheckPermission;
 ;
 /*
@@ -97,3 +98,6 @@ Route::get('email',[JobController::class,'processQueue']);
 Route::get('sendnoti',[HomeController::class,'sendNotification']);
 
 Route::get('mail', [MailController::class,'index']);
+
+Route::get('message/index', [MessageController::class,'index']);
+Route::get('message/send', [MessageController::class,'send']);
