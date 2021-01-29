@@ -9,6 +9,8 @@ use App\Jobs\SendOrderEmail;
 use App\Models\Order;
 use Log;
 
+use App\Mail\SendEmailMailable;
+
 
 class MailController extends Controller
 {
@@ -32,4 +34,8 @@ class MailController extends Controller
 		Mail::to($recepient)->send(new OrderShipped($order));
 		return 'Sent order '.$order->id;*/
 	}
+
+	/*public function sendMail1(){
+		Mail::to('bitfumes@gmail.com')->send(new SendEmailMailable());
+	}*/
 }

@@ -101,3 +101,7 @@ Route::get('mail', [MailController::class,'index']);
 
 Route::get('message/index', [MessageController::class,'index']);
 Route::get('message/send', [MessageController::class,'send']);
+
+Route::get('sendEmailQueue',[JobController::class, 'processBitQueue']);
+
+Route::get('notifybit',[MessageController::class,'bitNotify']);

@@ -9,6 +9,9 @@ use App\Models\Message;
 use App\Events\NewMessageNotification;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+use App\Notifications\NotifyUser;
+
 class MessageController extends Controller
 {
    	public function __construct() {
@@ -32,4 +35,12 @@ class MessageController extends Controller
 
         event(new NewMessageNotification($message));
    	}
+
+    public function bitNotify(){
+      //$user = User::find(1)->notify(new NotifyUser());
+      $user = User::where('id','1')->first();
+      $user->notify(new NotifyUser());
+      //dd($user);exit;
+      return "done";
+    }
 }
